@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: dicoDingo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./database:/data/db
+  app-admin:
+    image: 'dicodingo-admin:latest'
+    ports:
+      - '4000:8080'
+  app-website:
+    image: 'dicodingo-website:latest'
+    ports:
+      - '3000:3000'
+
+  app-backend:
+    image: 'dicodingo-backend:latest'
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - mongo
+    environment:
+      spring.data.mongodb.uri: mongodb://dicoDingoUser:example@mongo:27017/dicoDingo?Authsource=dicoDingo
