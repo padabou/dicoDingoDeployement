@@ -11,16 +11,16 @@ services:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - ./database:/data/db
   app-admin:
-    image: 'dicodingo-admin:latest'
+    image: 'padabou/dicodingo-admin:latest'
     ports:
       - 4000:8080
   app-website:
-    image: 'dicodingo-website:latest'
+    image: 'padabou/dicodingo-website:latest'
     ports:
       - 3000:3000
 
   app-backend:
-    image: 'dicodingo-backend:latest'
+    image: 'padabou/dicodingo-backend:latest'
     ports:
       - 8080:8080
       - 8081:8081
