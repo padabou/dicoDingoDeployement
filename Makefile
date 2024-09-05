@@ -1,8 +1,8 @@
 # Makefile for docker
 
-IMAGE_NAME_ADMIN = dicodingo-admin
-IMAGE_NAME_WEBSITE = dicodingo-website
-IMAGE_NAME_BACKEND = dicodingo-backend
+IMAGE_NAME_ADMIN = padabou/dicodingo-admin
+IMAGE_NAME_WEBSITE = padabou/dicodingo-website
+IMAGE_NAME_BACKEND = padabou/dicodingo-backend
 
 VERSION := "latest"
 
@@ -28,11 +28,20 @@ version: ## version
 build-backend: ## create backend image, run "make VERSION="1.1.0" build-backend"
 	cd ../dicoDingoBack && mvn clean install -DskipTests && docker build --no-cache -t $(IMAGE_NAME_BACKEND):$(VERSION) -f Dockerfile .
 
+push-backend-latest: ## push latest backend docker image to docker.io
+	docker push $(IMAGE_NAME_BACKEND):$(VERSION)
+
 build-admin: ## create admin image, run "make VERSION="1.1.0" build-admin"
 	cd ../dicoDingoAdmin && docker build --no-cache -t $(IMAGE_NAME_ADMIN):$(VERSION) -f Dockerfile .
 
+push-admin-latest: ## push latest admin docker image to docker.io
+	docker push $(IMAGE_NAME_ADMIN):$(VERSION)
+
 build-front: ## create front image, run "make VERSION="1.1.0" build-front"
 	cd ../dicoDingoFront && docker build --no-cache -t $(IMAGE_NAME_WEBSITE):$(VERSION) -f Dockerfile .
+
+push-front-latest: ## push latest website docker image to docker.io
+	docker push $(IMAGE_NAME_WEBSITE):$(VERSION)
 
 build: ## create the image
 	mvn clean install -DskipTests

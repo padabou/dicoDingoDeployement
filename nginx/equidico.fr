@@ -1,0 +1,91 @@
+upstream backend{
+    server 127.0.0.1:8080;
+}
+
+upstream frontend{
+    server 127.0.0.1:3000;
+}
+
+upstream frontend-admin{
+    server 127.0.0.1:4000;
+}
+
+server {
+    server_name equidico.fr www.equidico.fr;
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied expired no-cache no-store private auth;
+    gzip_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/rss+xml text/javascript application/vnd.ms-fontobject font/ttf font/opentype image/jpeg image/png image/svg+xml image/x-icon;
+    gzip_disable "MSIE [1-6]\.";
+    #Redirige toutes les requêtes http vers https
+    #return 301 https://$host$request_uri;
+
+    location /api {
+        add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+        include proxy_params;
+        proxy_pass http://localhost:8080/;
+	    client_max_body_size 10m;
+    }
+
+   location /nimda {
+        add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+        include proxy_params;
+        proxy_pass http://frontend-admin/nimda;
+    }
+
+   location /nimda/static {
+         add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+         include proxy_params;
+         proxy_pass http://frontend-admin/static;
+    }
+
+    location /_next {
+        proxy_pass http://frontend;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://frontend/;
+    }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/equidico.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/equidico.fr/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+server {
+    server_name equidico.com www.equidico.com;
+    rewrite ^/(.*)$ https://equidico.fr$request_uri permanent;
+}
+
+server {
+    if ($host = www.equidico.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name www.equidico.fr;
+    return 301 $scheme://equidico.fr$request_uri;
+
+
+}
+
+
+server {
+    if ($host = equidico.fr) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name equidico.fr www.equidico.fr;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
