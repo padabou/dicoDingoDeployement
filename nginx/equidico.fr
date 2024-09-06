@@ -21,7 +21,7 @@ server {
     #Redirige toutes les requêtes http vers https
     #return 301 https://$host$request_uri;
 
-    location /api {
+    location /api/ {
         add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
         include proxy_params;
         proxy_pass http://localhost:8080/;
