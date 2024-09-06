@@ -61,6 +61,8 @@ server {
 
 server {
     server_name equidico.com www.equidico.com;
+    listen 80;
+    listen 443;
     rewrite ^/(.*)$ https://equidico.fr$request_uri permanent;
 }
 
