@@ -28,6 +28,10 @@ server {
 	    client_max_body_size 10m;
     }
 
+   location /static/ {
+        root /home/debian/workspace/;
+   }
+
    location /nimda {
         add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
         include proxy_params;
