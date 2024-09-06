@@ -27,4 +27,7 @@ services:
     depends_on:
       - mongo
     environment:
-      spring.data.mongodb.uri: mongodb://dicoDingoUser:example@mongo:27017/dicoDingo?Authsource=dicoDingo
+      - spring.data.mongodb.uri=mongodb://dicoDingoUser:example@mongo:27017/dicoDingo?Authsource=dicoDingo
+      - server.tomcat.accesslog.enabled=true
+      - spring.profiles.active=prod
+      - app.cors.allowedOrigins=https://equidico.fr,https://www.equidico.fr
