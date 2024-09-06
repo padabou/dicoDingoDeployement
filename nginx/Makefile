@@ -11,5 +11,5 @@ help: ## print this message
 
 # deploy equidico.fr nginx config file and restart nginx
 deploy: ## deploy equidico.fr nginx config file and restart nginx
-	sudo cp my-uuu.com /etc/nginx/sites-available/equidico.fr
+	sudo cp equidico.fr /etc/nginx/sites-available/equidico.fr
 	sudo /etc/init.d/nginx restart
