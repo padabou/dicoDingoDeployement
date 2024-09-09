@@ -1,7 +1,7 @@
 # Makefile for docker
 
 IMAGE_NAME_ADMIN = padabou/dicodingo-admin
-IMAGE_NAME_WEBSITE = padabou/dicodingo-website
+IMAGE_NAME_FRONT = padabou/dicodingo-front
 IMAGE_NAME_BACKEND = padabou/dicodingo-backend
 
 VERSION := "latest"
@@ -38,22 +38,16 @@ push-admin-latest: ## push latest admin docker image to docker.io
 	docker push $(IMAGE_NAME_ADMIN):$(VERSION)
 
 build-front: ## create front image, run "make VERSION="1.1.0" build-front"
-	cd ../dicoDingoFront && docker build --no-cache -t $(IMAGE_NAME_WEBSITE):$(VERSION) -f Dockerfile .
+	cd ../dicoDingoFront && docker build --no-cache -t $(IMAGE_NAME_FRONT):$(VERSION) -f Dockerfile .
 
-push-front-latest: ## push latest website docker image to docker.io
-	docker push $(IMAGE_NAME_WEBSITE):$(VERSION)
-
-build: ## create the image
-	mvn clean install -DskipTests
-	docker build --no-cache -t $(IMAGE_NAME_ADMIN):latest -f admin/docker/Dockerfile .
-	docker build --no-cache -t $(IMAGE_NAME_WEBSITE):latest -f website/docker/Dockerfile .
-	## set the native image build command
+push-front-latest: ## push latest frontx docker image to docker.io
+	docker push $(IMAGE_NAME_FRONT):$(VERSION)
 
 push: build ## build and push image
 	docker tag $(IMAGE_NAME_ADMIN):latest $(IMAGE_NAME_ADMIN):$(IMAGE_VERSION)
-	docker tag $(IMAGE_NAME_WEBSITE):latest $(IMAGE_NAME_WEBSITE):$(IMAGE_VERSION)
+	docker tag $(IMAGE_NAME_FRONT):latest $(IMAGE_NAME_FRONT):$(IMAGE_VERSION)
 	docker push $(IMAGE_NAME_ADMIN):$(IMAGE_VERSION)
-	docker push $(IMAGE_NAME_WEBSITE):$(IMAGE_VERSION)
+	docker push $(IMAGE_NAME_FRONT):$(IMAGE_VERSION)
 
 run: ## create a new container from the image
 	docker run -p 8080:8080 -p 8081:8081 -d $(IMAGE_NAME_ADMIN):latest
@@ -64,8 +58,8 @@ start-app-backend: ## start backend application in docker image
 start-app-admin: ## start admin application in docker image
 	docker-compose up app-admin -d
 
-start-app-website: ## start website application in docker image
-	docker-compose up app-website -d
+start-app-front: ## start front application in docker image
+	docker-compose up app-front -d
 
 start-db: ## start database
 	docker-compose up mongo -d

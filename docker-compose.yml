@@ -14,8 +14,8 @@ services:
     image: 'padabou/dicodingo-admin:latest'
     ports:
       - 4000:8080
-  app-website:
-    image: 'padabou/dicodingo-website:latest'
+  app-front:
+    image: 'padabou/dicodingo-front:latest'
     ports:
       - 3000:3000
 
