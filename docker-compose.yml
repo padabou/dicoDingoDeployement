@@ -31,3 +31,4 @@ services:
       - server.tomcat.accesslog.enabled=true
       - spring.profiles.active=prod
       - app.cors.allowedOrigins=https://equidico.fr,https://www.equidico.fr
+      - app.private.apikey=jogIjEyMzQ1Njc4OTAiLA0KI
