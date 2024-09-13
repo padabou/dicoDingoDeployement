@@ -52,13 +52,13 @@ push: build ## build and push image
 run: ## create a new container from the image
 	docker run -p 8080:8080 -p 8081:8081 -d $(IMAGE_NAME_ADMIN):latest
 
-start-app-backend: ## start backend application in docker image
+start-backend: ## start backend application in docker image
 	docker-compose up app-backend -d
 
-start-app-admin: ## start admin application in docker image
+start-admin: ## start admin application in docker image
 	docker-compose up app-admin -d
 
-start-app-front: ## start front application in docker image
+start-front: ## start front application in docker image
 	docker-compose up app-front -d
 
 start-db: ## start database
