@@ -30,6 +30,10 @@ server {
 
    location /static/ {
         root /home/debian/workspace/;
+        expires 30d;  # Les images seront mises en cache pendant 30 jours
+        add_header Cache-Control "public, max-age=2592000";  # Ajoute un en-tête Cache-Control
+        access_log off;  # Optionnel: ne log pas les accès aux fichiers images pour améliorer les performances
+
    }
 
    location /nimda {
