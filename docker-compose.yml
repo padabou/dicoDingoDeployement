@@ -14,6 +14,11 @@ services:
     image: 'padabou/dicodingo-admin:latest'
     ports:
       - 4000:8080
+  app-admin-v2:
+    image: 'padabou/dicodingo-admin2:latest'
+    container_name: app-admin-v2
+    ports:
+      - 4000:3000
   app-front:
     image: 'padabou/dicodingo-front:latest'
     ports:

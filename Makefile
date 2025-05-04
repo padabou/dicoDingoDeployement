@@ -1,6 +1,7 @@
 # Makefile for docker
 
 IMAGE_NAME_ADMIN = padabou/dicodingo-admin
+IMAGE_NAME_ADMIN2 = padabou/dicodingo-admin2
 IMAGE_NAME_FRONT = padabou/dicodingo-front
 IMAGE_NAME_BACKEND = padabou/dicodingo-backend
 
@@ -31,8 +32,11 @@ build-backend: ## create backend image, run "make VERSION="1.1.0" build-backend"
 push-backend-latest: ## push latest backend docker image to docker.io
 	docker push $(IMAGE_NAME_BACKEND):$(VERSION)
 
-build-admin: ## create admin image, run "make VERSION="1.1.0" build-admin"
-	cd ../dicoDingoAdmin && docker build --no-cache -t $(IMAGE_NAME_ADMIN):$(VERSION) -f Dockerfile .
+# build-admin: ## create admin image, run "make VERSION="1.1.0" build-admin"
+#	cd ../dicoDingoAdmin && docker build --no-cache -t $(IMAGE_NAME_ADMIN):$(VERSION) -f Dockerfile .
+
+build-admin2: ## create admin image, run "make VERSION="1.1.0" build-admin2"
+	cd ../dicoDingoAdmin2 && docker build --no-cache -t $(IMAGE_NAME_ADMIN2):$(VERSION) -f Dockerfile .
 
 push-admin-latest: ## push latest admin docker image to docker.io
 	docker push $(IMAGE_NAME_ADMIN):$(VERSION)
@@ -55,8 +59,11 @@ run: ## create a new container from the image
 start-backend: ## start backend application in docker image
 	docker-compose up app-backend -d
 
-start-admin: ## start admin application in docker image
-	docker-compose up app-admin -d
+#start-admin: ## start admin application in docker image
+#	docker-compose up app-admin -d
+
+start-admin2: ## start admin application in docker image
+	docker compose up app-admin-v2 -d
 
 start-front: ## start front application in docker image
 	docker-compose up app-front -d
